@@ -104,7 +104,7 @@ const AuthCallback: React.FC = () => {
         }
 
         // Exchange the code for access token
-        const apiBaseUrl = process.env.REACT_APP_API_URL || 'https://pocket-api.thixpin.me';
+        const apiBaseUrl = import.meta.env.VITE_API_URL || 'https://pocket-api.thixpin.me';
         const callbackUrl = `${apiBaseUrl}/auth/facebook/callback`;
         
         console.log('AuthCallback - Making API call to:', callbackUrl);

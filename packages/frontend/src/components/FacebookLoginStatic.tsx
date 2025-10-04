@@ -112,7 +112,7 @@ const FacebookLoginStatic: React.FC<FacebookLoginStaticProps> = ({ onSuccess }) 
       console.log('FacebookLoginStatic - Storing redirect URL:', currentPath);
       
       // Construct Facebook OAuth URL with static redirect URI
-      const facebookAppId = process.env.REACT_APP_FACEBOOK_APP_ID;
+      const facebookAppId = import.meta.env.VITE_FACEBOOK_APP_ID;
       const redirectUri = encodeURIComponent(`${window.location.origin}/auth/callback`);
       const scope = 'public_profile';
       const state = 'facebookdirect';

@@ -38,8 +38,4 @@ coverage/
 /tmp/
 packages/**/.aws-sam/
 packages/backend/samconfig.toml
-.tmp/ENVIRONMENT_SETUP.md
-.tmp/LOCAL_TESTING_GUIDE.md
-.tmp/MONOREPO_GUIDE.md
-.tmp/MONOREPO_MIGRATION_SUMMARY.md
-.tmp/requirement.md
+.tmp/

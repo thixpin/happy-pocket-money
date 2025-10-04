@@ -97,7 +97,7 @@ const FacebookLoginComponent: React.FC<FacebookLoginComponentProps> = ({ onSucce
         {error && <ErrorMessage>{error}</ErrorMessage>}
         
         <FacebookLogin
-          appId={process.env.REACT_APP_FACEBOOK_APP_ID || ''}
+          appId={import.meta.env.VITE_FACEBOOK_APP_ID || ''}
           fields="name,picture"
           scope="public_profile"
           callback={responseFacebook}
