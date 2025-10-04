@@ -308,11 +308,12 @@ export class GiveawayController {
         return;
       }
       
-      // Calculate portion
+      // Calculate portion based on current state
+      const currentParticipantCount = giveaway.participants.length;
       const portion = calculateSinglePortion(
         giveaway.budget,
         giveaway.receiverCount,
-        giveaway.participants.length,
+        currentParticipantCount,
         giveaway.totalDistributed
       );
       
@@ -332,16 +333,32 @@ export class GiveawayController {
         profileLink: giverDetails?.profileLink || `https://www.facebook.com/${giveaway.giverId}`
       };
       
-      // Update giveaway
-      giveaway.participants.push(participant);
-      giveaway.totalDistributed += portion;
+      // Atomically add participant to prevent race conditions
+      const atomicResult = await databaseService.addParticipantAtomically(
+        giveaway.id,
+        participant,
+        currentParticipantCount
+      );
       
-      // Check if giveaway is complete
-      if (giveaway.participants.length >= giveaway.receiverCount) {
-        giveaway.status = 'completed';
+      if (!atomicResult.success) {
+        res.status(409).json({
+          error: {
+            code: 'CONCURRENT_MODIFICATION',
+            message: atomicResult.error || 'Giveaway state has changed. Please try again.'
+          },
+          timestamp: new Date().toISOString(),
+          requestId: req.headers['x-request-id'] || 'unknown'
+        });
+        return;
       }
       
-      await databaseService.updateGiveaway(giveaway);
+      const updatedGiveaway = atomicResult.giveaway!;
+      
+      // Check if giveaway is now complete and update status if needed
+      if (updatedGiveaway.participants.length >= updatedGiveaway.receiverCount && updatedGiveaway.status === 'active') {
+        updatedGiveaway.status = 'completed';
+        await databaseService.updateGiveaway(updatedGiveaway);
+      }
       
       res.json({
         participant: {
@@ -350,9 +367,9 @@ export class GiveawayController {
           participatedAt: participant.participatedAt
         },
         giveaway: {
-          participantsCount: giveaway.participants.length,
-          remainingSlots: giveaway.receiverCount - giveaway.participants.length,
-          status: giveaway.status
+          participantsCount: updatedGiveaway.participants.length,
+          remainingSlots: updatedGiveaway.receiverCount - updatedGiveaway.participants.length,
+          status: updatedGiveaway.status
         }
       });
       

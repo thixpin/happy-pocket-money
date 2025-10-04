@@ -154,6 +154,61 @@ export class DatabaseService {
     await dynamoDB.update(params).promise();
     return giveaway;
   }
+
+  async addParticipantAtomically(
+    giveawayId: string, 
+    participant: Participant, 
+    expectedParticipantCount: number
+  ): Promise<{ success: boolean; giveaway?: Giveaway; error?: string }> {
+    try {
+      const params = {
+        TableName: GIVEAWAYS_TABLE,
+        Key: { id: giveawayId },
+        UpdateExpression: 'SET participants = list_append(participants, :participant), totalDistributed = totalDistributed + :portion',
+        ConditionExpression: 'size(participants) = :expectedCount AND #status = :activeStatus',
+        ExpressionAttributeNames: {
+          '#status': 'status'
+        },
+        ExpressionAttributeValues: {
+          ':participant': [{
+            ...participant,
+            participatedAt: participant.participatedAt.toISOString()
+          }],
+          ':portion': participant.portion,
+          ':expectedCount': expectedParticipantCount,
+          ':activeStatus': 'active'
+        },
+        ReturnValues: 'ALL_NEW'
+      };
+
+      const result = await dynamoDB.update(params).promise();
+      
+      if (!result.Attributes) {
+        throw new Error('Failed to update giveaway');
+      }
+      
+      // Convert the returned item back to Giveaway format
+      const updatedGiveaway = {
+        ...result.Attributes,
+        createdAt: new Date(result.Attributes.createdAt),
+        expiresAt: result.Attributes.expiresAt ? new Date(result.Attributes.expiresAt) : undefined,
+        participants: result.Attributes.participants.map((p: any) => ({
+          ...p,
+          participatedAt: new Date(p.participatedAt)
+        }))
+      } as Giveaway;
+
+      return { success: true, giveaway: updatedGiveaway };
+    } catch (error: any) {
+      if (error.code === 'ConditionalCheckFailedException') {
+        return { 
+          success: false, 
+          error: 'Giveaway state has changed. Please try again.' 
+        };
+      }
+      throw error;
+    }
+  }
   
   async getGiveawaysByGiverId(giverId: string): Promise<Giveaway[]> {
     const params = {
