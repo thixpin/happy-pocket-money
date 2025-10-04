@@ -2,6 +2,8 @@
   "name": "@thadingyut/frontend",
   "version": "1.0.0",
   "private": true,
+  "license": "GPL-3.0",
+  "author": "Thixpin",
   "dependencies": {
     "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/react": "^16.0.1",

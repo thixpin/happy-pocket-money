@@ -24,8 +24,8 @@
     "backend",
     "api"
   ],
-  "author": "",
-  "license": "ISC",
+  "author": "Thixpin",
+  "license": "GPL-3.0",
   "dependencies": {
     "@vendia/serverless-express": "^4.12.6",
     "aws-sdk": "^2.1692.0",

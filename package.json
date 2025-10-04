@@ -47,8 +47,8 @@
     "nodejs",
     "typescript"
   ],
-  "author": "",
-  "license": "ISC",
+  "author": "Thixpin",
+  "license": "GPL-3.0",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/your-username/thadingyut-pocket-money.git"
