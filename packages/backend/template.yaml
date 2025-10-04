@@ -1,0 +1,198 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: Pocket Money Backend - SAM
+
+Parameters:
+  StageName:
+    Type: String
+    Default: dev
+    AllowedPattern: "[a-z0-9-]+"
+    Description: Deployment stage name
+  FrontendUrl:
+    Type: String
+    Default: https://pocket.thixpin.me
+    Description: Allowed CORS origin and function env FRONTEND_URL
+  FacebookAppId:
+    Type: String
+    Description: Facebook App ID for OAuth authentication
+    NoEcho: false
+  FacebookAppSecret:
+    Type: String
+    Description: Facebook App Secret for OAuth authentication
+    NoEcho: true
+  CloudFrontAlias:
+    Type: String
+    Default: "pocket-api.thixpin.me"
+    Description: Optional alternate domain name for CloudFront (e.g., api.example.com)
+  CloudFrontCertificateArn:
+    Type: String
+    Description: Optional ACM certificate ARN in us-east-1 for the alias
+
+Conditions:
+  HasAlias: !Not [ !Equals [ !Ref CloudFrontAlias, "" ] ]
+  HasCert: !Not [ !Equals [ !Ref CloudFrontCertificateArn, "" ] ]
+
+Globals:
+  Function:
+    Runtime: nodejs20.x
+    Timeout: 15
+    MemorySize: 512
+    Architectures:
+      - x86_64
+    Environment:
+      Variables:
+        NODE_OPTIONS: --enable-source-maps
+        FRONTEND_URL: !Ref FrontendUrl
+        USERS_TABLE: !Sub "thadingyut-users-${StageName}"
+        GIVEAWAYS_TABLE: !Sub "thadingyut-giveaways-${StageName}"
+        FACEBOOK_APP_ID: !Ref FacebookAppId
+        FACEBOOK_APP_SECRET: !Ref FacebookAppSecret
+        FACEBOOK_REDIRECT_URI: !Sub "${FrontendUrl}/auth/callback"
+
+Resources:
+  ApiGateway:
+    Type: AWS::Serverless::HttpApi
+    Properties:
+      Name: !Sub 'pocket-api-${StageName}'
+      # CorsConfiguration:
+      #   AllowOrigins:
+      #     - !Ref FrontendUrl
+      #   AllowHeaders:
+      #     - Content-Type
+      #     - Authorization
+      #     - X-Requested-With
+      #   AllowMethods:
+      #     - GET
+      #     - POST
+      #     - PUT
+      #     - DELETE
+      #     - OPTIONS
+      #   AllowCredentials: true
+
+  LambdaApi:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: ./dist/
+      Handler: lambda.handler
+      Events:
+        Root:
+          Type: HttpApi
+          Properties:
+            Path: /
+            Method: ANY
+            ApiId: !Ref ApiGateway
+        Proxy:
+          Type: HttpApi
+          Properties:
+            Path: /{proxy+}
+            Method: ANY
+            ApiId: !Ref ApiGateway
+      Policies:
+        - AWSLambdaBasicExecutionRole
+        - Statement:
+            - Effect: Allow
+              Action:
+                - dynamodb:GetItem
+                - dynamodb:PutItem
+                - dynamodb:UpdateItem
+                - dynamodb:DeleteItem
+                - dynamodb:Query
+                - dynamodb:Scan
+              Resource:
+                - !GetAtt UsersTable.Arn
+                - !GetAtt GiveawaysTable.Arn
+                - !Sub "${UsersTable.Arn}/index/*"
+                - !Sub "${GiveawaysTable.Arn}/index/*"
+
+  UsersTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: !Sub "thadingyut-users-${StageName}"
+      AttributeDefinitions:
+        - AttributeName: id
+          AttributeType: S
+        - AttributeName: facebookId
+          AttributeType: S
+      KeySchema:
+        - AttributeName: id
+          KeyType: HASH
+      GlobalSecondaryIndexes:
+        - IndexName: facebookId-index
+          KeySchema:
+            - AttributeName: facebookId
+              KeyType: HASH
+          Projection:
+            ProjectionType: ALL
+      BillingMode: PAY_PER_REQUEST
+
+  GiveawaysTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: !Sub "thadingyut-giveaways-${StageName}"
+      AttributeDefinitions:
+        - AttributeName: id
+          AttributeType: S
+        - AttributeName: hash
+          AttributeType: S
+        - AttributeName: giverId
+          AttributeType: S
+      KeySchema:
+        - AttributeName: id
+          KeyType: HASH
+      GlobalSecondaryIndexes:
+        - IndexName: hash-index
+          KeySchema:
+            - AttributeName: hash
+              KeyType: HASH
+          Projection:
+            ProjectionType: ALL
+        - IndexName: giverId-index
+          KeySchema:
+            - AttributeName: giverId
+              KeyType: HASH
+          Projection:
+            ProjectionType: ALL
+      BillingMode: PAY_PER_REQUEST
+
+  ApiDistribution:
+    Type: AWS::CloudFront::Distribution
+    Condition: HasAlias
+    Properties:
+      DistributionConfig:
+        Enabled: true
+        Aliases: !If [ HasAlias, [ !Ref CloudFrontAlias ], !Ref "AWS::NoValue" ]
+        DefaultCacheBehavior:
+          TargetOriginId: HttpApiOrigin
+          ViewerProtocolPolicy: redirect-to-https
+          AllowedMethods: [ GET, HEAD, OPTIONS, PUT, POST, PATCH, DELETE ]
+          CachePolicyId: 4135ea2d-6df8-44a3-9df3-4b5a84be39ad
+          OriginRequestPolicyId: b689b0a8-53d0-40ab-baf2-68738e2966ac
+        Origins:
+          - Id: HttpApiOrigin
+            DomainName: !Sub "${ApiGateway}.execute-api.${AWS::Region}.amazonaws.com"
+            CustomOriginConfig:
+              OriginProtocolPolicy: https-only
+        ViewerCertificate: !If
+          - HasCert
+          - {
+              AcmCertificateArn: !Ref CloudFrontCertificateArn,
+              SslSupportMethod: sni-only,
+              MinimumProtocolVersion: TLSv1.2_2021
+            }
+          - !Ref "AWS::NoValue"
+
+Outputs:
+  ApiId:
+    Value: !Ref ApiGateway
+    Description: HTTP API ID
+  ApiUrl:
+    Value: !Sub "https://${ApiGateway}.execute-api.${AWS::Region}.amazonaws.com"
+    Description: Base URL for the HTTP API
+  CloudFrontDistributionId:
+    Condition: HasAlias
+    Value: !Ref ApiDistribution
+    Description: CloudFront Distribution ID for API
+  CloudFrontDomainName:
+    Condition: HasAlias
+    Value: !GetAtt ApiDistribution.DomainName
+    Description: CloudFront domain for API

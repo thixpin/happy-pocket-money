@@ -1,0 +1,40 @@
+# Node.js
+node_modules/
+.npm/
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Build outputs
+/dist/
+/build/
+/packages/**/dist/
+/packages/**/build/
+
+# Coverage
+coverage/
+*.lcov
+
+# OS / IDE
+.DS_Store
+*.swp
+.idea/
+.vscode/
+
+# Env files
+.env
+.env.*
+!.env.example
+
+# Misc
+*.tsbuildinfo
+
+# Local scripts output
+/tmp/
+packages/**/.aws-sam/
+packages/backend/samconfig.toml

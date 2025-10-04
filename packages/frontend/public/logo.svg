@@ -1,0 +1,111 @@
+<svg width="800" height="800" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" font-family="sans-serif">
+  <!-- 
+    Happy Pocket Logo - Thadingyut Festival Edition
+    This SVG features a joyful pocket character surrounded by traditional Burmese lanterns 
+    and festive elements to celebrate the Thadingyut festival of lights.
+  -->
+
+  <defs>
+    <!-- Gradient for the warm background glow -->
+    <radialGradient id="glowGradient" cx="50%" cy="50%" r="50%" fx="50%" fy="50%">
+      <stop offset="0%" style="stop-color:rgb(255,245,210);stop-opacity:1" />
+      <stop offset="100%" style="stop-color:rgb(255,220,150);stop-opacity:0" />
+    </radialGradient>
+    
+    <!-- Gradient for the pocket -->
+    <linearGradient id="pocketGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#3498db;" />
+      <stop offset="100%" style="stop-color:#2980b9;" />
+    </linearGradient>
+
+    <!-- Gradient for gold coins -->
+    <linearGradient id="coinGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#f1c40f;"/>
+      <stop offset="100%" style="stop-color:#f39c12;"/>
+    </linearGradient>
+
+    <!-- Gradient for banknotes -->
+    <linearGradient id="noteGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#2ecc71;"/>
+      <stop offset="100%" style="stop-color:#27ae60;"/>
+    </linearGradient>
+    
+    <!-- Pattern for Lanterns -->
+    <pattern id="lanternPattern" patternUnits="userSpaceOnUse" width="4" height="4">
+      <path d="M-1,1 l2,-2 M0,4 l4,-4 M3,5 l2,-2" style="stroke:#e67e22; stroke-width:0.5; opacity:0.6;" />
+    </pattern>
+    
+    <!-- Path for curved text -->
+    <path id="textCirclePath" d="M 30, 32 A 65 65 0 0 1 170 32" fill="transparent"/>
+  </defs>
+
+  <!-- Background Glow -->
+  <circle cx="100" cy="100" r="95" fill="url(#glowGradient)" />
+  <circle cx="100" cy="100" r="90" fill="none" stroke="#f39c12" stroke-width="2" />
+
+  <!-- Lanterns (Thadingyut theme) -->
+  <!-- Left Lantern -->
+  <g transform="translate(40 70) rotate(-15)">
+    <path d="M0,0 Q5,-10 10,0 L10,20 Q5,30 0,20 Z" fill="#f1c40f" stroke="#e67e22" stroke-width="1.5"/>
+    <path d="M0,0 Q5,-10 10,0 L10,20 Q5,30 0,20 Z" fill="url(#lanternPattern)"/>
+    <line x1="5" y1="-10" x2="5" y2="-20" stroke="#e67e22" stroke-width="1"/>
+    <circle cx="5" cy="23" r="1.5" fill="#e74c3c" />
+  </g>
+
+  <!-- Right Lantern -->
+  <g transform="translate(150 70) rotate(15) scale(-1, 1)">
+    <path d="M0,0 Q5,-10 10,0 L10,20 Q5,30 0,20 Z" fill="#e74c3c" stroke="#c0392b" stroke-width="1.5"/>
+    <path d="M0,0 Q5,-10 10,0 L10,20 Q5,30 0,20 Z" fill="url(#lanternPattern)"/>
+    <line x1="5" y1="-10" x2="5" y2="-20" stroke="#c0392b" stroke-width="1"/>
+    <circle cx="5" cy="23" r="1.5" fill="#f1c40f" />
+  </g>
+
+  <!-- Money -->
+  <g transform="translate(0, 10)">
+    <!-- Coins -->
+    <circle cx="80" cy="85" r="7" fill="url(#coinGradient)" stroke="#d35400" stroke-width="1"/>
+    <text x="80" y="87" text-anchor="middle" font-size="6" fill="#fff" font-weight="bold">$</text>
+    <circle cx="65" cy="90" r="7" fill="url(#coinGradient)" stroke="#d35400" stroke-width="1"/>
+    <text x="65" y="92" text-anchor="middle" font-size="6" fill="#fff" font-weight="bold">$</text>
+    <circle cx="95" cy="90" r="7" fill="url(#coinGradient)" stroke="#d35400" stroke-width="1"/>
+    <text x="95" y="92" text-anchor="middle" font-size="6" fill="#fff" font-weight="bold">$</text>
+
+    <!-- Banknotes -->
+    <g transform="translate(100, 75) rotate(10)">
+      <rect x="-15" y="-10" width="30" height="15" fill="url(#noteGradient)" stroke="#16a085" stroke-width="1" rx="2"/>
+      <circle cx="0" cy="-2.5" r="4" fill="none" stroke="#ffffff" stroke-width="0.8" opacity="0.7"/>
+    </g>
+    <g transform="translate(115, 80) rotate(25)">
+      <rect x="-15" y="-10" width="30" height="15" fill="url(#noteGradient)" stroke="#16a085" stroke-width="1" rx="2"/>
+      <circle cx="0" cy="-2.5" r="4" fill="none" stroke="#ffffff" stroke-width="0.8" opacity="0.7"/>
+    </g>
+  </g>
+
+  <!-- Pocket Character -->
+  <g transform="translate(0, 20)">
+    <!-- Pocket Main Shape -->
+    <path d="M 60,80 L 60,120 Q 100,135 140,120 L 140,80 Z" fill="url(#pocketGradient)" stroke="#2c3e50" stroke-width="2" />
+    
+    <!-- Pocket Stitching -->
+    <path d="M 65,85 L 65,118 Q 100,130 135,118 L 135,85" fill="none" stroke="#ecf0f1" stroke-width="1.5" stroke-dasharray="3 3" />
+    
+    <!-- Face -->
+    <g>
+      <!-- Eyes -->
+      <circle cx="85" cy="100" r="4" fill="#2c3e50" />
+      <circle cx="115" cy="100" r="4" fill="#2c3e50" />
+      <!-- Shine in eyes -->
+      <circle cx="87" cy="99" r="1.5" fill="white" />
+      <circle cx="117" cy="99" r="1.5" fill="white" />
+      
+      <!-- Mouth -->
+      <path d="M 92,112 Q 100,118 108,112" fill="none" stroke="#2c3e50" stroke-width="2" stroke-linecap="round"/>
+      
+      <!-- Blush -->
+      <circle cx="78" cy="105" r="5" fill="#e74c3c" opacity="0.4" />
+      <circle cx="122" cy="105" r="5" fill="#e74c3c" opacity="0.4" />
+    </g>
+  </g>
+  
+</svg>
+

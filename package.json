@@ -1,0 +1,60 @@
+{
+  "name": "thadingyut-pocket-money",
+  "version": "1.0.0",
+  "description": "Thadingyut Festival Pocket Money Platform - Monorepo",
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "dev": "concurrently \"npm run dev:backend\" \"npm run dev:frontend\"",
+    "dev:frontend": "npm run start --workspace=packages/frontend",
+    "dev:backend": "npm run dev --workspace=packages/backend",
+    "build": "npm run build --workspaces",
+    "build:frontend": "npm run build --workspace=packages/frontend",
+    "build:backend": "npm run build --workspace=packages/backend",
+    "test": "npm run test --workspaces",
+    "test:frontend": "npm run test --workspace=packages/frontend",
+    "test:backend": "npm run test --workspace=packages/backend",
+    "test:coverage": "npm run test:coverage --workspaces",
+    "lint": "npm run lint --workspaces",
+    "lint:fix": "npm run lint:fix --workspaces",
+    "clean": "npm run clean --workspaces && rm -rf node_modules",
+    "install:all": "npm install",
+    "setup": "npm run install:all && npm run setup:env",
+    "setup:env": "./setup-env.sh",
+    "deploy:staging": "./deploy/deploy-staging.sh",
+    "deploy:production": "./deploy/deploy-production.sh",
+    "deploy:infrastructure": "aws cloudformation deploy --template-file deploy/aws-infrastructure.yml --stack-name thadingyut-pocket-money --capabilities CAPABILITY_IAM"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2",
+    "lerna": "^8.1.0",
+    "typescript": "^5.7.2",
+    "typescript-tslint-plugin": "^1.0.1"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=9.0.0"
+  },
+  "keywords": [
+    "thadingyut",
+    "pocket-money",
+    "festival",
+    "myanmar",
+    "monorepo",
+    "react",
+    "nodejs",
+    "typescript"
+  ],
+  "author": "",
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/your-username/thadingyut-pocket-money.git"
+  },
+  "bugs": {
+    "url": "https://github.com/your-username/thadingyut-pocket-money/issues"
+  },
+  "homepage": "https://github.com/your-username/thadingyut-pocket-money#readme"
+}

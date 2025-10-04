@@ -1,0 +1,95 @@
+/* Thadingyut Festival Theme */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background: linear-gradient(135deg, #ffd700, #ff6b35);
+  min-height: 100vh;
+}
+
+.App {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #ffd700, #ff6b35);
+}
+
+/* Mobile-first responsive design */
+@media (max-width: 768px) {
+  body {
+    font-size: 14px;
+  }
+  
+  /* Reduce padding and font sizes for mobile */
+  .mobile-container {
+    padding: 10px !important;
+  }
+  
+  .mobile-card {
+    padding: 15px !important;
+    margin-top: 10px !important;
+  }
+  
+  .mobile-title {
+    font-size: 1.5rem !important;
+    margin-bottom: 15px !important;
+  }
+  
+  .mobile-subtitle {
+    font-size: 1.1rem !important;
+    margin-bottom: 10px !important;
+  }
+  
+  .mobile-button {
+    padding: 12px 20px !important;
+    font-size: 1rem !important;
+  }
+  
+  .mobile-input {
+    padding: 10px !important;
+    font-size: 0.9rem !important;
+  }
+  
+  .mobile-text {
+    font-size: 0.9rem !important;
+    line-height: 1.4 !important;
+  }
+}
+
+/* Festival colors and animations */
+@keyframes festival-glow {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 30px rgba(255, 215, 0, 0.6);
+  }
+}
+
+.festival-glow {
+  animation: festival-glow 2s ease-in-out infinite;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #ffd700;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #ff6b35;
+}
