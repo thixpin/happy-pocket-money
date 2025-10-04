@@ -17,6 +17,14 @@ body {
 .App {
   min-height: 100vh;
   background: linear-gradient(135deg, #ffd700, #ff6b35);
+  display: flex;
+  flex-direction: column;
+}
+
+.App main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
 }
 
 /* Mobile-first responsive design */
@@ -58,6 +66,25 @@ body {
   .mobile-text {
     font-size: 0.9rem !important;
     line-height: 1.4 !important;
+  }
+  
+  /* Footer mobile styles */
+  footer {
+    padding: 1rem 0.8rem !important;
+    font-size: 0.8rem !important;
+  }
+  
+  footer div:first-child {
+    gap: 0.8rem !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    flex-wrap: nowrap !important;
+    overflow-x: auto !important;
+    padding: 0 0.5rem !important;
+  }
+  
+  footer span {
+    display: none !important;
   }
 }
 

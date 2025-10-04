@@ -7,34 +7,103 @@ const Footer: React.FC = () => {
   
   return (
     <footer style={{
-      marginTop: '2rem',
-      padding: '1rem',
-      borderTop: '1px solid #e5e7eb',
-      color: '#6b7280',
-      fontSize: '0.9rem'
+      marginTop: '1rem',
+      padding: '1.5rem 1rem',
+      borderTop: '2px solid rgba(255, 255, 255, 0.2)',
+      background: 'rgba(255, 255, 255, 0.1)',
+      backdropFilter: 'blur(10px)',
+      color: '#ffffff',
+      fontSize: '0.9rem',
+      textAlign: 'center'
     }}>
-      <div style={{ display: 'flex', justifyContent: 'center', gap: '1rem', flexWrap: 'wrap' }}>
-        <Link to="/">Home</Link>
+      <div style={{ 
+        display: 'flex', 
+        justifyContent: 'center', 
+        gap: '0.5rem', 
+        flexWrap: 'nowrap',
+        marginBottom: '1rem',
+        alignItems: 'center'
+      }}>
+        <Link 
+          to="/" 
+          style={{ 
+            color: '#ffffff', 
+            textDecoration: 'none',
+            fontWeight: '500',
+            transition: 'color 0.3s ease'
+          }}
+          onMouseEnter={(e) => e.currentTarget.style.color = '#ffd700'}
+          onMouseLeave={(e) => e.currentTarget.style.color = '#ffffff'}
+        >
+          Home
+        </Link>
         {isAuthenticated && (
           <>
-            <span>•</span>
-            <Link to="/my-giveaways">My Giveaways</Link>
+            <span style={{ color: 'rgba(255, 255, 255, 0.6)' }}>•</span>
+            <Link 
+              to="/my-giveaways" 
+              style={{ 
+                color: '#ffffff', 
+                textDecoration: 'none',
+                fontWeight: '500',
+                transition: 'color 0.3s ease'
+              }}
+              onMouseEnter={(e) => e.currentTarget.style.color = '#ffd700'}
+              onMouseLeave={(e) => e.currentTarget.style.color = '#ffffff'}
+            >
+              My Giveaways
+            </Link>
           </>
         )}
-        <span>•</span>
-        <Link to="/about">About</Link>
-        <span>•</span>
-        <Link to="/privacy-policy">Privacy Policy</Link>
-        <span>•</span>
-        <Link to="/data-deletion-instructions">Data Deletion</Link>
+        {/* <span style={{ color: 'rgba(255, 255, 255, 0.6)' }}>•</span>
+        <Link 
+          to="/about" 
+          style={{ 
+                color: '#ffffff', 
+                textDecoration: 'none',
+                fontWeight: '500',
+                transition: 'color 0.3s ease'
+              }}
+          onMouseEnter={(e) => e.currentTarget.style.color = '#ffd700'}
+          onMouseLeave={(e) => e.currentTarget.style.color = '#ffffff'}
+        >
+          About
+        </Link> */}
+        <span style={{ color: 'rgba(255, 255, 255, 0.6)' }}>•</span>
+        <Link 
+          to="/privacy-policy" 
+          style={{ 
+                color: '#ffffff', 
+                textDecoration: 'none',
+                fontWeight: '500',
+                transition: 'color 0.3s ease'
+              }}
+          onMouseEnter={(e) => e.currentTarget.style.color = '#ffd700'}
+          onMouseLeave={(e) => e.currentTarget.style.color = '#ffffff'}
+        >
+          PrivacyPolicy
+        </Link>
+        {/* <span style={{ color: 'rgba(255, 255, 255, 0.6)' }}>•</span>
+        <Link 
+          to="/data-deletion-instructions" 
+          style={{ 
+                color: '#ffffff', 
+                textDecoration: 'none',
+                fontWeight: '500',
+                transition: 'color 0.3s ease'
+              }}
+          onMouseEnter={(e) => e.currentTarget.style.color = '#ffd700'}
+          onMouseLeave={(e) => e.currentTarget.style.color = '#ffffff'}
+        >
+          Data Deletion
+        </Link> */}
       </div>
       <div style={{ 
-        textAlign: 'center', 
-        marginTop: '1rem', 
-        fontSize: '0.8rem',
-        color: '#ffffff'
+        fontSize: '0.85rem',
+        color: 'rgba(255, 255, 255, 0.8)',
+        fontWeight: '400'
       }}>
-        Made with love by thixpin
+        Made with ❤️ by thixpin
       </div>
     </footer>
   );

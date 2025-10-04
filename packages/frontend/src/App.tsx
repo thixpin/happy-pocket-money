@@ -41,56 +41,58 @@ function App() {
     <AuthProvider>
       <Router>
         <div className="App">
-          <Routes>
-            <Route 
-              path="/login" 
-              element={
-                <PublicRoute>
-                  <FacebookLoginStatic />
-                </PublicRoute>
-              } 
-            />
-            <Route 
-              path="/auth/callback" 
-              element={<AuthCallback />} 
-            />
-            <Route 
-              path="/create" 
-              element={
-                <ProtectedRoute>
-                  <CreateGiveaway />
-                </ProtectedRoute>
-              } 
-            />
-            <Route 
-              path="/my-giveaways" 
-              element={
-                <ProtectedRoute>
-                  <MyGiveaways />
-                </ProtectedRoute>
-              } 
-            />
-            <Route 
-              path="/giveaway/:hash" 
-              element={<GiveawayPage />} 
-            />
-            <Route 
-              path="/giveaway/:hash/dashboard" 
-              element={
-                <ProtectedRoute>
-                  <Dashboard />
-                </ProtectedRoute>
-              } 
-            />
-            <Route 
-              path="/giveaway/:hash/result" 
-              element={<ResultPage />} 
-            />
-            <Route path="/about" element={<About />} />
-            <Route path="/privacy-policy" element={<PrivacyPolicy />} />
-            <Route path="/data-deletion-instructions" element={<DataDeletionInstructions />} />
-            <Route path="/" element={<Navigate to="/login" />} />
-          </Routes>
+          <main>
+            <Routes>
+              <Route 
+                path="/login" 
+                element={
+                  <PublicRoute>
+                    <FacebookLoginStatic />
+                  </PublicRoute>
+                } 
+              />
+              <Route 
+                path="/auth/callback" 
+                element={<AuthCallback />} 
+              />
+              <Route 
+                path="/create" 
+                element={
+                  <ProtectedRoute>
+                    <CreateGiveaway />
+                  </ProtectedRoute>
+                } 
+              />
+              <Route 
+                path="/my-giveaways" 
+                element={
+                  <ProtectedRoute>
+                    <MyGiveaways />
+                  </ProtectedRoute>
+                } 
+              />
+              <Route 
+                path="/giveaway/:hash" 
+                element={<GiveawayPage />} 
+              />
+              <Route 
+                path="/giveaway/:hash/dashboard" 
+                element={
+                  <ProtectedRoute>
+                    <Dashboard />
+                  </ProtectedRoute>
+                } 
+              />
+              <Route 
+                path="/giveaway/:hash/result" 
+                element={<ResultPage />} 
+              />
+              <Route path="/about" element={<About />} />
+              <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+              <Route path="/data-deletion-instructions" element={<DataDeletionInstructions />} />
+              <Route path="/" element={<Navigate to="/login" />} />
+            </Routes>
+          </main>
           <Footer />
         </div>
       </Router>
