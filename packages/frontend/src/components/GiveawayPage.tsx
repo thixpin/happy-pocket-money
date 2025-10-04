@@ -307,7 +307,9 @@ const GiveawayPage: React.FC = () => {
           {dashboard.participants.length > 0 ? (
             <div style={{ marginTop: '20px' }}>
               <h3>🎉 Participants</h3>
-              {dashboard.participants.map((p, index) => (
+              {dashboard.participants
+                .sort((a, b) => b.portion - a.portion)
+                .map((p, index) => (
                 <div key={p.userId} style={{
                   background: '#f8f9fa',
                   padding: '15px',
@@ -476,7 +478,9 @@ const GiveawayPage: React.FC = () => {
           {dashboardData.participants.length > 0 ? (
             <div style={{ marginTop: '20px' }}>
               <h3>🎊 Winners & Results</h3>
-              {dashboardData.participants.map((p: any, index: number) => (
+              {dashboardData.participants
+                .sort((a: any, b: any) => b.portion - a.portion)
+                .map((p: any, index: number) => (
                 <div key={p.userId} style={{
                   background: '#f8f9fa',
                   padding: '15px',
